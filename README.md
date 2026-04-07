@@ -17,8 +17,8 @@ sudo -u postgres psql -c "CREATE DATABASE booking_portal OWNER booking_user;"
 # 2. Backend
 cd backend
 cp .env.example .env          # Edit with your credentials
-python -m venv venv && source venv/bin/activate
-pip install -r requirements.txt
+python -m venv venv && venv\Scripts\activate
+pip install fastapi uvicorn sqlalchemy pdfplumber openai python-dotenv psycopg2-binary==2.9.9 pydantic==2.9.2 python-multipart==0.0.9
 python main.py
 
 # 3. Frontend (new terminal)
