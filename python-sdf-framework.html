@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python AI-Native Software Development Framework</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #06080f;
+  --bg2: #0c1120;
+  --bg3: #111827;
+  --card: #0f1a2e;
+  --card2: #13213a;
+  --accent: #00d4ff;
+  --accent2: #7c3aed;
+  --accent3: #10b981;
+  --accent4: #f59e0b;
+  --accent5: #ef4444;
+  --accent6: #ec4899;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --border: rgba(0,212,255,0.15);
+  --glow: rgba(0,212,255,0.08);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html {scroll-behavior:smooth;}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridpulse 8s ease-in-out infinite;
+}
+@keyframes gridpulse {
+  0%,100%{opacity:0.5} 50%{opacity:1}
+}
+
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: orbdrift 12s ease-in-out infinite alternate;
+}
+.orb1 { width:500px;height:500px;background:rgba(0,212,255,0.07);top:-100px;left:-100px; }
+.orb2 { width:400px;height:400px;background:rgba(124,58,237,0.08);bottom:-50px;right:-80px; animation-delay:-4s; }
+.orb3 { width:300px;height:300px;background:rgba(16,185,129,0.05);top:50%;left:50%;transform:translate(-50%,-50%); animation-delay:-8s; }
+@keyframes orbdrift {
+  from{transform:translate(0,0) scale(1);}
+  to{transform:translate(30px,20px) scale(1.05);}
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.25);
+  border-radius: 100px;
+  padding: 6px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  position: relative; z-index: 1;
+}
+.hero-badge::before {
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 8px var(--accent);
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  position: relative; z-index: 1;
+  margin-bottom: 12px;
+}
+.hero h1 .line1 { display:block; color: var(--text); }
+.hero h1 .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--accent), var(--accent2) 50%, var(--accent6));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 18px;
+  color: var(--text2);
+  max-width: 720px;
+  margin: 20px auto 40px;
+  position: relative; z-index: 1;
+  font-weight: 300;
+}
+
+.hero-metrics {
+  display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+  position: relative; z-index: 1;
+  margin-bottom: 48px;
+}
+.metric {
+  text-align: center;
+  padding: 16px 24px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+.metric-val {
+  font-family: 'Syne', sans-serif;
+  font-size: 32px; font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent3));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.metric-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+.hero-nav {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+  position: relative; z-index: 1;
+}
+.nav-pill {
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 12px; font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.nav-pill.primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+.nav-pill.secondary {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+.nav-pill:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,212,255,0.2); }
+
+/* ─── SECTION WRAPPER ─── */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 32px;
+}
+
+.section-header {
+  margin-bottom: 48px;
+}
+
+.section-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.section-tag .num {
+  display: flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px;
+  background: rgba(0,212,255,0.1);
+  border: 1px solid rgba(0,212,255,0.3);
+  border-radius: 4px;
+  font-size: 10px;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(24px, 3.5vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  line-height: 1.1;
+}
+.section-title span {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-desc {
+  font-size: 15px;
+  color: var(--text2);
+  max-width: 600px;
+  margin-top: 10px;
+  font-weight: 300;
+}
+
+/* Divider */
+.divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin: 0;
+}
+
+/* ─── AUTONOMY LEVELS ─── */
+.levels-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+.levels-track::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  top: 20px; bottom: 20px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--accent6));
+}
+
+.level-row {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  padding: 16px 0;
+  position: relative;
+}
+.level-dot {
+  flex-shrink: 0;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 18px; font-weight: 800;
+  position: relative; z-index: 1;
+  border: 2px solid;
+}
+.l1-dot { background: rgba(0,212,255,0.1); border-color: var(--accent); color: var(--accent); }
+.l2-dot { background: rgba(124,58,237,0.1); border-color: var(--accent2); color: var(--accent2); }
+.l3-dot { background: rgba(16,185,129,0.1); border-color: var(--accent3); color: var(--accent3); }
+.l4-dot { background: rgba(245,158,11,0.1); border-color: var(--accent4); color: var(--accent4); }
+
+.level-card {
+  flex: 1;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 20px 24px;
+  transition: all 0.3s;
+}
+.level-card:hover { border-color: var(--border); transform: translateX(4px); }
+.level-card-top { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 12px; flex-wrap: wrap; }
+.level-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+.level-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.lbadge {
+  font-size: 10px; font-family: 'JetBrains Mono', monospace;
+  padding: 2px 8px; border-radius: 4px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.level-desc { font-size: 13px; color: var(--text2); margin-bottom: 12px; }
+.level-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+.ltool {
+  font-size: 11px; font-family: 'JetBrains Mono', monospace;
+  padding: 3px 10px; border-radius: 6px;
+  border: 1px solid;
+  font-weight: 500;
+}
+
+/* ─── GRID CARDS ─── */
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s;
+}
+.card:hover {
+  border-color: var(--border);
+  background: var(--card2);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.card-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+.card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.card-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+
+.tag-list { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+.tag {
+  font-size: 10px; font-family: 'JetBrains Mono', monospace;
+  padding: 3px 8px; border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  color: var(--text3);
+}
+
+/* ─── CODE BLOCKS ─── */
+.code-block {
+  background: #080e1a;
+  border: 1px solid rgba(0,212,255,0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+}
+.code-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  background: rgba(0,212,255,0.04);
+  border-bottom: 1px solid rgba(0,212,255,0.08);
+}
+.code-dots { display: flex; gap: 6px; }
+.code-dots span {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.d1{background:#ef4444;} .d2{background:#f59e0b;} .d3{background:#10b981;}
+.code-lang { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.1em; }
+.code-body {
+  padding: 20px 20px;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #c9d1d9;
+  white-space: pre;
+  overflow-x: auto;
+}
+.kw { color: #ff79c6; }
+.fn { color: #8be9fd; }
+.str { color: #f1fa8c; }
+.cm { color: #6272a4; font-style: italic; }
+.dec { color: #50fa7b; }
+.num { color: #bd93f9; }
+.cls { color: #ffb86c; }
+
+/* ─── PIPELINE DIAGRAM ─── */
+.pipeline {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 24px;
+  background: var(--card);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.06);
+  overflow-x: auto;
+}
+.pipe-step {
+  flex-shrink: 0;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid;
+  min-width: 100px;
+}
+.pipe-arrow {
+  flex-shrink: 0;
+  padding: 0 8px;
+  color: var(--text3);
+  font-size: 18px;
+}
+.pipe-icon { font-size: 22px; margin-bottom: 4px; }
+.pipe-label { font-size: 11px; font-weight: 600; margin-bottom: 2px; }
+.pipe-sub { font-size: 10px; color: var(--text3); font-family: 'JetBrains Mono', monospace; }
+
+/* ─── TABLE ─── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table th {
+  background: rgba(0,212,255,0.06);
+  padding: 12px 16px;
+  text-align: left;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--accent);
+  border-bottom: 1px solid rgba(0,212,255,0.15);
+  white-space: nowrap;
+}
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text2);
+  vertical-align: top;
+}
+.data-table tr:hover td { background: rgba(255,255,255,0.02); }
+.data-table .strong { font-weight: 600; color: var(--text); }
+.table-wrap {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ─── CHECKLIST ─── */
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.checklist li {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 13px; color: var(--text2);
+}
+.checklist li::before {
+  content: '✓';
+  flex-shrink: 0;
+  width: 18px; height: 18px;
+  border-radius: 4px;
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.3);
+  color: var(--accent3);
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px;
+}
+
+/* ─── BIG NUMBER ─── */
+.stat-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+.stat-box {
+  flex: 1; min-width: 140px;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 18px 20px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px; font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-desc { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; }
+
+/* ─── WORKFLOW DIAGRAM ─── */
+.workflow-svg-wrap {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 24px;
+  overflow-x: auto;
+}
+
+/* ─── RISK MATRIX ─── */
+.risk-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.risk-card {
+  padding: 18px;
+  border-radius: 12px;
+  border-left: 4px solid;
+}
+.risk-high { background: rgba(239,68,68,0.07); border-color: #ef4444; }
+.risk-med  { background: rgba(245,158,11,0.07); border-color: #f59e0b; }
+.risk-low  { background: rgba(16,185,129,0.07); border-color: #10b981; }
+.risk-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+.risk-desc  { font-size: 12px; color: var(--text2); }
+.risk-badge {
+  display: inline-block; margin-top: 8px;
+  font-size: 10px; font-family: 'JetBrains Mono', monospace;
+  padding: 2px 8px; border-radius: 4px;
+  font-weight: 600;
+}
+.risk-high .risk-badge { background: rgba(239,68,68,0.2); color: #ef4444; }
+.risk-med  .risk-badge { background: rgba(245,158,11,0.2); color: #f59e0b; }
+.risk-low  .risk-badge { background: rgba(16,185,129,0.2); color: #10b981; }
+
+/* ─── ROADMAP ─── */
+.roadmap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.roadmap-phase {
+  padding: 24px;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  position: relative;
+}
+.roadmap-phase:last-child { border-right: none; }
+.rp-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.rp-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px; font-weight: 800;
+  margin-bottom: 8px;
+}
+.rp-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  padding: 2px 8px; border-radius: 100px;
+  display: inline-block; margin-bottom: 14px;
+}
+.rp-items { font-size: 12px; color: var(--text2); }
+.rp-items li { margin-bottom: 6px; padding-left: 14px; position: relative; }
+.rp-items li::before { content:'→'; position:absolute; left:0; color: var(--text3); }
+
+/* ─── HIGHLIGHT BOX ─── */
+.highlight-box {
+  background: linear-gradient(135deg, rgba(0,212,255,0.05), rgba(124,58,237,0.05));
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin: 32px 0;
+}
+.highlight-box p {
+  font-family: 'Syne', sans-serif;
+  font-size: 18px; font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+}
+.highlight-box p span { color: var(--accent); }
+
+/* ─── TOOLS ECOSYSTEM ─── */
+.eco-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.eco-cat {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 16px;
+}
+.eco-cat-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-weight: 600;
+}
+.eco-item {
+  font-size: 12px; color: var(--text2);
+  padding: 4px 0;
+  display: flex; align-items: center; gap: 6px;
+}
+.eco-dot { width:4px;height:4px;border-radius:50%;flex-shrink:0; }
+
+/* ─── COMPARISON STRIP ─── */
+.compare-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 1fr;
+  gap: 0;
+}
+.compare-header, .compare-row { border-bottom: 1px solid rgba(255,255,255,0.04); }
+.compare-cell {
+  padding: 14px 18px;
+  font-size: 13px;
+  border-right: 1px solid rgba(255,255,255,0.04);
+}
+.compare-cell:last-child { border-right: none; }
+.compare-cell.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text3);
+  display: flex; align-items: center;
+}
+.compare-cell.good { color: var(--accent3); }
+.compare-cell.bad  { color: var(--accent5); }
+.compare-cell.header-cell {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700; font-size: 14px;
+  background: rgba(0,212,255,0.04);
+}
+.compare-wrap {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ─── AGENT WORKFLOW DIAGRAM ─── */
+.agent-flow {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  align-items: stretch;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+}
+.af-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+}
+.af-arrow {
+  display: flex; align-items: center;
+  padding: 0 4px;
+  color: var(--text3);
+  font-size: 20px;
+  padding-top: 18px;
+}
+.af-node {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid;
+  text-align: center;
+  font-size: 11px;
+  width: 100%;
+}
+.af-label { font-size: 10px; color: var(--text3); margin-top: 6px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ─── SCROLL ANIMATIONS ─── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── STICKY NAV ─── */
+.sticky-nav {
+  position: fixed;
+  top: 20px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 4px;
+  background: rgba(6,8,15,0.85);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 100px;
+  padding: 6px 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.snav-item {
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 11px; font-weight: 600;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.snav-item:hover, .snav-item.active {
+  background: rgba(0,212,255,0.12);
+  color: var(--accent);
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  text-align: center;
+  padding: 60px 32px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px; font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+.footer-sub { font-size: 13px; color: var(--text3); }
+
+/* ─── COLORS UTIL ─── */
+.c-accent  { color: var(--accent); }
+.c-accent2 { color: var(--accent2); }
+.c-accent3 { color: var(--accent3); }
+.c-accent4 { color: var(--accent4); }
+.c-accent5 { color: var(--accent5); }
+.bg-a1 { background: rgba(0,212,255,0.08); border-color: rgba(0,212,255,0.3) !important; }
+.bg-a2 { background: rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.3) !important; }
+.bg-a3 { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3) !important; }
+.bg-a4 { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3) !important; }
+.bg-a5 { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.3) !important; }
+.bg-a6 { background: rgba(236,72,153,0.08); border-color: rgba(236,72,153,0.3) !important; }
+
+.mb16{margin-bottom:16px;}
+.mb24{margin-bottom:24px;}
+.mb32{margin-bottom:32px;}
+.mt16{margin-top:16px;}
+.mt24{margin-top:24px;}
+</style>
+</head>
+<body>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <a class="snav-item" href="#overview">Overview</a>
+  <a class="snav-item" href="#standards">Standards</a>
+  <a class="snav-item" href="#agentic">Agentic AI</a>
+  <a class="snav-item" href="#testing">Testing</a>
+  <a class="snav-item" href="#tools">Tools</a>
+  <a class="snav-item" href="#roadmap">Roadmap</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════════════════ -->
+<section class="hero" id="overview">
+  <div class="hero-grid"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+
+  <div class="hero-badge">🐍 Python · AI-Native · v2.0 · 2026</div>
+
+  <h1>
+    <span class="line1">Python AI-Native</span>
+    <span class="line2">Software Development Framework</span>
+  </h1>
+
+  <p class="hero-sub">
+    From months to weeks. From unstructured chaos to governed autonomy.<br>
+    A complete framework for Python teams adopting Agentic AI &amp; Vibe Coding.
+  </p>
+
+  <div class="hero-metrics">
+    <div class="metric">
+      <div class="metric-val">10×</div>
+      <div class="metric-label">Delivery Speed</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">85%</div>
+      <div class="metric-label">Test Coverage Target</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">4</div>
+      <div class="metric-label">Autonomy Levels</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">0</div>
+      <div class="metric-label">Code Without Review</div>
+    </div>
+  </div>
+
+  <div class="hero-nav">
+    <a class="nav-pill primary" href="#standards">View Standards →</a>
+    <a class="nav-pill secondary" href="#roadmap">Rollout Roadmap</a>
+    <a class="nav-pill secondary" href="#agentic">Agentic AI Guide</a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     PHILOSOPHY
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in">
+  <div class="highlight-box">
+    <p>The defining feature of AI-native development is not speed. It is the <span>reassignment of execution responsibility from humans to systems</span>, while humans retain accountability for outcomes. Reasoning is becoming commoditized. <span>Governance is not.</span></p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card bg-a1">
+      <div class="card-icon" style="background:rgba(0,212,255,0.1)">🎯</div>
+      <div class="card-title c-accent">Intent-Driven Development</div>
+      <div class="card-desc">Shift from writing syntax to expressing intent. AI handles execution. You govern outcomes, constraints, and quality gates.</div>
+    </div>
+    <div class="card bg-a2">
+      <div class="card-icon" style="background:rgba(124,58,237,0.1)">🏛️</div>
+      <div class="card-title c-accent2">Governed Autonomy</div>
+      <div class="card-desc">Autonomy without attribution = unmanaged risk. Every agent action is attributable, bounded, and auditable. Policy first.</div>
+    </div>
+    <div class="card bg-a3">
+      <div class="card-icon" style="background:rgba(16,185,129,0.1)">🔬</div>
+      <div class="card-title c-accent3">Evaluation as Core</div>
+      <div class="card-desc">When AI generates code faster than humans review it, the bottleneck shifts to verification. Testing is not optional — it is the framework.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 1: PYTHON CODING STANDARDS
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in" id="standards">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">01</span> Foundation Layer</div>
+    <div class="section-title">Python <span>Coding Standards</span></div>
+    <div class="section-desc">Non-negotiable rules enforced via tooling. Every line — human or AI-generated — passes through these gates.</div>
+  </div>
+
+  <!-- File Structure -->
+  <div class="mb32">
+    <div class="card-title mb16" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">📁 Canonical Project Structure</div>
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div>
+        <div class="code-lang">bash — project layout</div>
+      </div>
+      <div class="code-body"><span class="cm"># Standard Python project layout — enforced via cookiecutter template</span>
+my_project/
+├── <span class="fn">src/</span>                    <span class="cm"># All application source — no flat imports</span>
+│   └── my_project/
+│       ├── <span class="fn">__init__.py</span>
+│       ├── <span class="fn">core/</span>           <span class="cm"># Domain logic, no I/O</span>
+│       ├── <span class="fn">api/</span>            <span class="cm"># HTTP layer (FastAPI routers)</span>
+│       ├── <span class="fn">services/</span>       <span class="cm"># Orchestration, use-cases</span>
+│       ├── <span class="fn">repositories/</span>   <span class="cm"># Data access, DB calls</span>
+│       ├── <span class="fn">models/</span>         <span class="cm"># Pydantic / SQLAlchemy models</span>
+│       └── <span class="fn">utils/</span>          <span class="cm"># Pure functions, no side effects</span>
+├── <span class="fn">tests/</span>
+│   ├── <span class="fn">unit/</span>
+│   ├── <span class="fn">integration/</span>
+│   └── <span class="fn">e2e/</span>
+├── <span class="fn">.claude/</span>                <span class="cm"># Copilot / Claude Code workspace config</span>
+│   ├── <span class="fn">settings.json</span>
+│   └── <span class="fn">CLAUDE.md</span>           <span class="cm"># Project context for AI agents</span>
+├── <span class="fn">.cursor/</span>                <span class="cm"># Cursor IDE rules</span>
+│   └── <span class="fn">rules/</span>
+├── pyproject.toml          <span class="cm"># Single source of truth for deps + tools</span>
+├── Makefile                <span class="cm"># Developer commands: make test, make lint, make run</span>
+├── .pre-commit-config.yaml
+└── docker-compose.yml</div>
+    </div>
+  </div>
+
+  <!-- Coding rules grid -->
+  <div class="grid-2 mb32">
+
+    <!-- Naming & Style -->
+    <div class="card">
+      <div class="card-title mb16">🔤 Naming Conventions</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python</div></div>
+        <div class="code-body"><span class="cm"># ✅ Functions — snake_case, imperative verb</span>
+<span class="kw">def</span> <span class="fn">calculate_invoice_total</span>(items: list[Item]) -> Decimal:
+    ...
+
+<span class="cm"># ✅ Classes — PascalCase, noun</span>
+<span class="kw">class</span> <span class="cls">InvoiceProcessor</span>:
+    ...
+
+<span class="cm"># ✅ Constants — SCREAMING_SNAKE</span>
+MAX_RETRY_COUNT = <span class="num">3</span>
+
+<span class="cm"># ✅ Private — single leading underscore</span>
+<span class="kw">def</span> <span class="fn">_validate_payload</span>(data: dict) -> <span class="kw">None</span>: ...
+
+<span class="cm"># ❌ NEVER — ambiguous single letters</span>
+<span class="kw">def</span> <span class="fn">calc</span>(x): ...</div>
+      </div>
+    </div>
+
+    <!-- Type hints -->
+    <div class="card">
+      <div class="card-title mb16">🏷️ Type Hints — Mandatory</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python</div></div>
+        <div class="code-body"><span class="kw">from</span> __future__ <span class="kw">import</span> annotations
+<span class="kw">from</span> typing <span class="kw">import</span> Protocol
+<span class="kw">from</span> collections.abc <span class="kw">import</span> Sequence
+
+<span class="cm"># ✅ Full signatures — return types always</span>
+<span class="kw">def</span> <span class="fn">fetch_user</span>(
+    user_id: <span class="cls">UUID</span>,
+    include_deleted: bool = <span class="kw">False</span>,
+) -> <span class="cls">User</span> | <span class="kw">None</span>: ...
+
+<span class="cm"># ✅ Pydantic for validated data boundaries</span>
+<span class="kw">class</span> <span class="cls">CreateOrderRequest</span>(<span class="cls">BaseModel</span>):
+    product_id: <span class="cls">UUID</span>
+    quantity: <span class="cls">PositiveInt</span>
+    notes: str | <span class="kw">None</span> = <span class="kw">None</span>
+
+<span class="cm"># mypy --strict must pass — CI blocks on error</span></div>
+      </div>
+    </div>
+
+    <!-- Docstrings -->
+    <div class="card">
+      <div class="card-title mb16">📝 Docstring Standard — Google Style</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python</div></div>
+        <div class="code-body"><span class="kw">def</span> <span class="fn">process_payment</span>(
+    order: <span class="cls">Order</span>,
+    gateway: <span class="cls">PaymentGateway</span>,
+) -> <span class="cls">PaymentResult</span>:
+    <span class="str">"""Charge the customer for an order.
+
+    Args:
+        order: Validated order with line items & totals.
+        gateway: Injected payment provider (Stripe, Razorpay).
+
+    Returns:
+        PaymentResult with transaction_id and status.
+
+    Raises:
+        PaymentDeclinedError: When gateway rejects charge.
+        InsufficientFundsError: When balance insufficient.
+
+    Example:
+        result = process_payment(order, stripe_gateway)
+        assert result.status == "captured"
+    """</span></div>
+      </div>
+    </div>
+
+    <!-- Error Handling -->
+    <div class="card">
+      <div class="card-title mb16">⚠️ Error Handling Pattern</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python</div></div>
+        <div class="code-body"><span class="cm"># ✅ Domain exceptions — never bare Exception</span>
+<span class="kw">class</span> <span class="cls">DomainError</span>(<span class="cls">Exception</span>):
+    <span class="str">"""Base for all domain errors."""</span>
+
+<span class="kw">class</span> <span class="cls">OrderNotFoundError</span>(<span class="cls">DomainError</span>):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, order_id: <span class="cls">UUID</span>) -> <span class="kw">None</span>:
+        super().__init__(<span class="str">f"Order {order_id} not found"</span>)
+        self.order_id = order_id
+
+<span class="cm"># ✅ Result type for expected failures</span>
+<span class="kw">from</span> result <span class="kw">import</span> Result, Ok, Err
+
+<span class="kw">def</span> <span class="fn">find_order</span>(oid: <span class="cls">UUID</span>) -> Result[<span class="cls">Order</span>, str]:
+    <span class="kw">if not</span> (order := repo.get(oid)):
+        <span class="kw">return</span> <span class="fn">Err</span>(<span class="str">f"Order {oid} not found"</span>)
+    <span class="kw">return</span> <span class="fn">Ok</span>(order)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tooling row -->
+  <div class="card-title mb16" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">🛠️ Mandatory Toolchain</div>
+  <div class="grid-4 mb32">
+    <div class="card bg-a1">
+      <div class="card-icon" style="background:rgba(0,212,255,0.1)">⚡</div>
+      <div class="card-title c-accent">Ruff</div>
+      <div class="card-desc">Linting + formatting. Replaces flake8, isort, black. 10–100× faster. Zero config drift.</div>
+      <div class="tag-list"><span class="tag">lint</span><span class="tag">format</span><span class="tag">import-sort</span></div>
+    </div>
+    <div class="card bg-a2">
+      <div class="card-icon" style="background:rgba(124,58,237,0.1)">🔍</div>
+      <div class="card-title c-accent2">mypy --strict</div>
+      <div class="card-desc">Full static type checking. Catches 30%+ of runtime bugs before execution. CI blocks on failure.</div>
+      <div class="tag-list"><span class="tag">types</span><span class="tag">strict</span></div>
+    </div>
+    <div class="card bg-a3">
+      <div class="card-icon" style="background:rgba(16,185,129,0.1)">🧪</div>
+      <div class="card-title c-accent3">pytest + coverage</div>
+      <div class="card-desc">85% coverage minimum. Fail-fast. Parametrize liberally. Fixtures in conftest.py only.</div>
+      <div class="tag-list"><span class="tag">test</span><span class="tag">coverage</span></div>
+    </div>
+    <div class="card bg-a4">
+      <div class="card-icon" style="background:rgba(245,158,11,0.1)">🔒</div>
+      <div class="card-title c-accent4">Bandit + Safety</div>
+      <div class="card-desc">Security scanning for Python code and dependencies. No secrets in code. All deps audited.</div>
+      <div class="tag-list"><span class="tag">security</span><span class="tag">CVE scan</span></div>
+    </div>
+    <div class="card bg-a5">
+      <div class="card-icon" style="background:rgba(239,68,68,0.1)">🪝</div>
+      <div class="card-title c-accent5">pre-commit</div>
+      <div class="card-desc">All checks run locally before any commit. Ruff, mypy, bandit, secret scan. Cannot be skipped.</div>
+      <div class="tag-list"><span class="tag">hooks</span><span class="tag">local</span></div>
+    </div>
+    <div class="card bg-a6">
+      <div class="card-icon" style="background:rgba(236,72,153,0.1)">📊</div>
+      <div class="card-title c-accent6">SonarQube / CodeQL</div>
+      <div class="card-desc">Deep static analysis, code smell detection, security hotspots. Runs on every PR in CI.</div>
+      <div class="tag-list"><span class="tag">SAST</span><span class="tag">quality</span></div>
+    </div>
+    <div class="card bg-a1">
+      <div class="card-icon" style="background:rgba(0,212,255,0.08)">📦</div>
+      <div class="card-title c-accent">uv / poetry</div>
+      <div class="card-desc">Deterministic dependency resolution. pyproject.toml only. No requirements.txt sprawl.</div>
+      <div class="tag-list"><span class="tag">deps</span><span class="tag">lock</span></div>
+    </div>
+    <div class="card bg-a2">
+      <div class="card-icon" style="background:rgba(124,58,237,0.08)">🔄</div>
+      <div class="card-title c-accent2">GitHub Actions</div>
+      <div class="card-desc">Full CI pipeline: lint → typecheck → test → security → build. Every PR. No exceptions.</div>
+      <div class="tag-list"><span class="tag">CI/CD</span><span class="tag">automation</span></div>
+    </div>
+  </div>
+
+  <!-- pyproject.toml -->
+  <div class="code-block mb32">
+    <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">pyproject.toml — single source of truth</div></div>
+    <div class="code-body"><span class="cm"># pyproject.toml — Team Standard Configuration</span>
+[tool.ruff]
+line-length = <span class="num">88</span>
+target-version = <span class="str">"py312"</span>
+select = [<span class="str">"E"</span>, <span class="str">"W"</span>, <span class="str">"F"</span>, <span class="str">"I"</span>, <span class="str">"N"</span>, <span class="str">"UP"</span>, <span class="str">"S"</span>, <span class="str">"B"</span>, <span class="str">"A"</span>, <span class="str">"C4"</span>, <span class="str">"PT"</span>]
+ignore = [<span class="str">"S101"</span>]  <span class="cm"># allow assert in tests</span>
+
+[tool.mypy]
+strict = <span class="kw">true</span>
+python_version = <span class="str">"3.12"</span>
+ignore_missing_imports = <span class="kw">false</span>
+
+[tool.pytest.ini_options]
+addopts = <span class="str">"--cov=src --cov-report=term-missing --cov-fail-under=85 -v"</span>
+testpaths = [<span class="str">"tests"</span>]
+
+[tool.coverage.report]
+exclude_lines = [<span class="str">"pragma: no cover"</span>, <span class="str">"if TYPE_CHECKING:"</span>]</div>
+  </div>
+
+  <!-- Architecture Principles -->
+  <div class="card-title mb16" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">🏗️ Architecture Principles</div>
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title mb16">Dependency Rule</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python</div></div>
+        <div class="code-body"><span class="cm"># Dependencies point INWARD only</span>
+<span class="cm"># core → (nothing)</span>
+<span class="cm"># services → core</span>
+<span class="cm"># api → services, core</span>
+<span class="cm"># repositories → core</span>
+
+<span class="cm"># ✅ Inversion of control via Protocol</span>
+<span class="kw">class</span> <span class="cls">UserRepository</span>(<span class="cls">Protocol</span>):
+    <span class="kw">async def</span> <span class="fn">get</span>(self, uid: <span class="cls">UUID</span>) -> <span class="cls">User</span>: ...
+    <span class="kw">async def</span> <span class="fn">save</span>(self, user: <span class="cls">User</span>) -> <span class="kw">None</span>: ...
+
+<span class="cm"># Core never imports SQLAlchemy</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title mb16">Async-First Pattern</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python</div></div>
+        <div class="code-body"><span class="cm"># All I/O must be async</span>
+<span class="kw">async def</span> <span class="fn">get_user_orders</span>(
+    user_id: <span class="cls">UUID</span>,
+    db: <span class="cls">AsyncSession</span>,
+) -> list[<span class="cls">Order</span>]:
+    <span class="cm"># Use asyncio.gather for parallel I/O</span>
+    user, orders = <span class="kw">await</span> asyncio.gather(
+        <span class="fn">fetch_user</span>(user_id, db),
+        <span class="fn">fetch_orders</span>(user_id, db),
+    )
+    <span class="kw">return</span> orders
+
+<span class="cm"># Never block the event loop</span>
+<span class="cm"># CPU-bound → run_in_executor</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title mb16">Configuration Management</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python</div></div>
+        <div class="code-body"><span class="kw">from</span> pydantic_settings <span class="kw">import</span> BaseSettings
+
+<span class="kw">class</span> <span class="cls">Settings</span>(<span class="cls">BaseSettings</span>):
+    database_url: <span class="cls">PostgresDsn</span>
+    secret_key: <span class="cls">SecretStr</span>
+    debug: bool = <span class="kw">False</span>
+    max_workers: <span class="cls">PositiveInt</span> = <span class="num">4</span>
+
+    <span class="kw">class</span> <span class="cls">Config</span>:
+        env_file = <span class="str">".env"</span>
+        env_file_encoding = <span class="str">"utf-8"</span>
+
+<span class="cm"># ✅ Singleton via lru_cache</span>
+<span class="dec">@lru_cache</span>
+<span class="kw">def</span> <span class="fn">get_settings</span>() -> <span class="cls">Settings</span>:
+    <span class="kw">return</span> <span class="cls">Settings</span>()</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 2: AGENTIC AI / VIBE CODING
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in" id="agentic">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">02</span> Agentic AI Layer</div>
+    <div class="section-title">Agentic AI &amp; <span>Vibe Coding</span></div>
+    <div class="section-desc">GitHub Copilot + Claude + Cursor — how they fit into your workflow at each autonomy level.</div>
+  </div>
+
+  <!-- Four Autonomy Levels -->
+  <div class="card-title mb24" style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800">Four Levels of AI Autonomy</div>
+  <div class="levels-track mb32">
+
+    <div class="level-row">
+      <div class="level-dot l1-dot">1</div>
+      <div class="level-card">
+        <div class="level-card-top">
+          <div>
+            <div class="level-name c-accent">Assistive Coding</div>
+            <div class="level-badges">
+              <span class="lbadge">Task-level</span>
+              <span class="lbadge">Human: Author &amp; Editor</span>
+              <span class="lbadge">Current Team State</span>
+            </div>
+          </div>
+        </div>
+        <div class="level-desc">AI suggests completions within files or functions. You type, AI autocompletes. GitHub Copilot in its default mode. Safe to deploy immediately to all team members.</div>
+        <div class="level-tools">
+          <span class="ltool" style="border-color:var(--accent);color:var(--accent)">GitHub Copilot</span>
+          <span class="ltool" style="border-color:var(--accent);color:var(--accent)">Cursor Autocomplete</span>
+          <span class="ltool" style="border-color:var(--accent);color:var(--accent)">Claude inline</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-row">
+      <div class="level-dot l2-dot">2</div>
+      <div class="level-card">
+        <div class="level-card-top">
+          <div>
+            <div class="level-name c-accent2">Co-Creative Coding</div>
+            <div class="level-badges">
+              <span class="lbadge">Module-level</span>
+              <span class="lbadge">Human: Architect &amp; Reviewer</span>
+              <span class="lbadge">Target: Month 1–2</span>
+            </div>
+          </div>
+        </div>
+        <div class="level-desc">AI collaborates on design, refactoring, and logic across components. Cursor's Composer, Copilot Workspace, Claude Code plan mode. You review every diff before commit.</div>
+        <div class="level-tools">
+          <span class="ltool" style="border-color:var(--accent2);color:var(--accent2)">Cursor Composer</span>
+          <span class="ltool" style="border-color:var(--accent2);color:var(--accent2)">Copilot Workspace</span>
+          <span class="ltool" style="border-color:var(--accent2);color:var(--accent2)">Claude Code</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-row">
+      <div class="level-dot l3-dot">3</div>
+      <div class="level-card">
+        <div class="level-card-top">
+          <div>
+            <div class="level-name c-accent3">Delegated Agentic Development</div>
+            <div class="level-badges">
+              <span class="lbadge">Feature-level</span>
+              <span class="lbadge">Human: Orchestrator &amp; Approver</span>
+              <span class="lbadge">Target: Month 3–4</span>
+            </div>
+          </div>
+        </div>
+        <div class="level-desc">AI agents execute end-to-end dev tasks within defined boundaries. Claude Code with skills, Cursor Agent mode. Humans delegate goals, agents execute, humans approve PRs.</div>
+        <div class="level-tools">
+          <span class="ltool" style="border-color:var(--accent3);color:var(--accent3)">Claude Code Skills</span>
+          <span class="ltool" style="border-color:var(--accent3);color:var(--accent3)">Cursor Agent</span>
+          <span class="ltool" style="border-color:var(--accent3);color:var(--accent3)">OpenHands</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="level-row">
+      <div class="level-dot l4-dot">4</div>
+      <div class="level-card">
+        <div class="level-card-top">
+          <div>
+            <div class="level-name c-accent4">Autonomous SDLC Agents</div>
+            <div class="level-badges">
+              <span class="lbadge">System-level</span>
+              <span class="lbadge">Human: Governor &amp; Risk Owner</span>
+              <span class="lbadge">Target: Month 6+</span>
+            </div>
+          </div>
+        </div>
+        <div class="level-desc">Multi-agent systems continuously develop, test, deploy, and optimize software. LangGraph orchestration, parallel agents, verifier loops. Full audit trail required.</div>
+        <div class="level-tools">
+          <span class="ltool" style="border-color:var(--accent4);color:var(--accent4)">LangGraph</span>
+          <span class="ltool" style="border-color:var(--accent4);color:var(--accent4)">AutoGen</span>
+          <span class="ltool" style="border-color:var(--accent4);color:var(--accent4)">CrewAI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Claude Code CLAUDE.md -->
+  <div class="card-title mb16" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">📋 CLAUDE.md — Project Context File</div>
+  <div class="code-block mb32">
+    <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">.claude/CLAUDE.md — agent context</div></div>
+    <div class="code-body"><span class="cm"># Project Context for Claude Code / GitHub Copilot Agents</span>
+
+<span class="cm">## Project</span>
+Name: my_project | Python 3.12 | FastAPI | PostgreSQL | Async
+
+<span class="cm">## Coding Standards (NON-NEGOTIABLE)</span>
+- Ruff formatting: 88 char line length
+- Type hints on ALL functions (mypy --strict)
+- Google-style docstrings on all public APIs
+- Test every function: AAA pattern (Arrange-Act-Assert)
+- Pydantic for ALL data boundaries (API, config, events)
+- Async/await for ALL I/O operations
+- NO bare except, NO print() — use structlog
+
+<span class="cm">## Architecture Rules</span>
+- src/core/ — zero external imports
+- Dependencies flow INWARD only (clean architecture)
+- Repository pattern for all data access
+- Dependency injection via FastAPI Depends()
+
+<span class="cm">## What NOT to Generate</span>
+- No secrets or API keys in code
+- No shell=True in subprocess calls
+- No pickle — use JSON or msgpack
+- No global mutable state
+
+<span class="cm">## Skills Available</span>
+- /mnt/skills/code-review/SKILL.md
+- /mnt/skills/testing/SKILL.md
+- /mnt/skills/security/SKILL.md</div>
+  </div>
+
+  <!-- Cursor Rules -->
+  <div class="card-title mb16" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">🖱️ Cursor Rules File</div>
+  <div class="code-block mb32">
+    <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">.cursor/rules/python.mdc</div></div>
+    <div class="code-body"><span class="cm">---</span>
+description: Python coding standards for AI-assisted development
+globs: ["**/*.py"]
+alwaysApply: true
+<span class="cm">---</span>
+
+<span class="cm"># Cursor AI Rules — Python</span>
+
+<span class="cm">## Always Do</span>
+- Add type hints to every function parameter and return value
+- Write a Google-style docstring for every public function/class
+- After generating code, add corresponding pytest tests in tests/unit/
+- Use Pydantic BaseModel for any data structure crossing a boundary
+- Use structlog for logging — never print()
+- Prefer dataclasses or Pydantic over plain dicts for structured data
+
+<span class="cm">## Never Do</span>
+- Never use `from module import *`
+- Never write synchronous DB calls (use asyncpg / SQLAlchemy async)
+- Never catch bare Exception without logging and re-raising
+- Never hardcode credentials — always use Settings class
+- Never write business logic in API route handlers (use services/)
+
+<span class="cm">## Test Generation Rule</span>
+When generating a function in src/, also generate:
+1. Unit test in tests/unit/ (mock all external deps)
+2. At least 3 test cases: happy path, edge case, error case</div>
+  </div>
+
+  <!-- Agentic Workflows -->
+  <div class="card-title mb24" style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800">Agentic Workflow Patterns</div>
+  <div class="grid-3 mb32">
+    <div class="card bg-a1">
+      <div class="card-title c-accent mb16">▶ Sequential Workflow</div>
+      <!-- Inline SVG diagram -->
+      <svg viewBox="0 0 260 60" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin-bottom:12px;">
+        <rect x="2" y="12" width="60" height="36" rx="8" fill="rgba(0,212,255,0.1)" stroke="rgba(0,212,255,0.3)" stroke-width="1"/>
+        <text x="32" y="33" text-anchor="middle" fill="#00d4ff" font-size="10" font-family="JetBrains Mono">Agent 1</text>
+        <text x="68" y="33" text-anchor="middle" fill="#64748b" font-size="14">→</text>
+        <rect x="82" y="12" width="60" height="36" rx="8" fill="rgba(0,212,255,0.08)" stroke="rgba(0,212,255,0.2)" stroke-width="1"/>
+        <text x="112" y="33" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">Agent 2</text>
+        <text x="148" y="33" text-anchor="middle" fill="#64748b" font-size="14">→</text>
+        <rect x="162" y="12" width="60" height="36" rx="8" fill="rgba(0,212,255,0.06)" stroke="rgba(0,212,255,0.15)" stroke-width="1"/>
+        <text x="192" y="33" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">Agent 3</text>
+        <text x="228" y="33" text-anchor="middle" fill="#64748b" font-size="14">→</text>
+        <rect x="238" y="20" width="20" height="20" rx="4" fill="rgba(16,185,129,0.2)" stroke="rgba(16,185,129,0.4)" stroke-width="1"/>
+        <text x="248" y="34" text-anchor="middle" fill="#10b981" font-size="10">✓</text>
+      </svg>
+      <div class="card-desc">Agents run one after another in a chain. Agent 1 completes → hands off to Agent 2 → Agent 3. Best for tasks with strict order dependencies (e.g., spec → code → test → review).</div>
+    </div>
+    <div class="card bg-a2">
+      <div class="card-title c-accent2 mb16">⊕ Parallel Workflow</div>
+      <svg viewBox="0 0 260 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin-bottom:12px;">
+        <rect x="2" y="27" width="55" height="36" rx="8" fill="rgba(124,58,237,0.1)" stroke="rgba(124,58,237,0.3)" stroke-width="1"/>
+        <text x="29" y="48" text-anchor="middle" fill="#7c3aed" font-size="9" font-family="JetBrains Mono">Meta</text>
+        <text x="29" y="58" text-anchor="middle" fill="#7c3aed" font-size="9" font-family="JetBrains Mono">Agent</text>
+        <line x1="57" y1="45" x2="80" y2="20" stroke="#64748b" stroke-width="1"/>
+        <line x1="57" y1="45" x2="80" y2="70" stroke="#64748b" stroke-width="1"/>
+        <rect x="80" y="5" width="55" height="30" rx="8" fill="rgba(124,58,237,0.08)" stroke="rgba(124,58,237,0.2)" stroke-width="1"/>
+        <text x="107" y="24" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="JetBrains Mono">Agent A</text>
+        <rect x="80" y="55" width="55" height="30" rx="8" fill="rgba(124,58,237,0.08)" stroke="rgba(124,58,237,0.2)" stroke-width="1"/>
+        <text x="107" y="74" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="JetBrains Mono">Agent B</text>
+        <line x1="135" y1="20" x2="158" y2="45" stroke="#64748b" stroke-width="1"/>
+        <line x1="135" y1="70" x2="158" y2="45" stroke="#64748b" stroke-width="1"/>
+        <rect x="158" y="27" width="60" height="36" rx="8" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+        <text x="188" y="48" text-anchor="middle" fill="#10b981" font-size="9" font-family="JetBrains Mono">Aggregator</text>
+      </svg>
+      <div class="card-desc">Meta Agent orchestrates multiple agents running simultaneously. All results converge at an Aggregator. Best for independent subtasks — multiple files, parallel feature branches.</div>
+    </div>
+    <div class="card bg-a3">
+      <div class="card-title c-accent3 mb16">🔁 Self-Reflection Workflow</div>
+      <svg viewBox="0 0 260 90" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin-bottom:12px;">
+        <rect x="2" y="27" width="55" height="36" rx="8" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.3)" stroke-width="1"/>
+        <text x="29" y="44" text-anchor="middle" fill="#10b981" font-size="9" font-family="JetBrains Mono">Meta</text>
+        <text x="29" y="56" text-anchor="middle" fill="#10b981" font-size="9" font-family="JetBrains Mono">Agent</text>
+        <text x="62" y="48" text-anchor="middle" fill="#64748b" font-size="12">→</text>
+        <rect x="72" y="27" width="55" height="36" rx="8" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.2)" stroke-width="1"/>
+        <text x="99" y="48" text-anchor="middle" fill="#94a3b8" font-size="9" font-family="JetBrains Mono">Agent 1</text>
+        <text x="132" y="48" text-anchor="middle" fill="#64748b" font-size="12">→</text>
+        <rect x="142" y="27" width="55" height="36" rx="8" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
+        <text x="169" y="48" text-anchor="middle" fill="#f59e0b" font-size="9" font-family="JetBrains Mono">Verifier</text>
+        <path d="M 169 63 Q 169 80 99 80 Q 29 80 29 63" fill="none" stroke="#64748b" stroke-width="1" stroke-dasharray="3,2"/>
+        <text x="99" y="78" text-anchor="middle" fill="#64748b" font-size="8">← Feedback</text>
+      </svg>
+      <div class="card-desc">Adds a quality control feedback loop. Meta Agent + Agent 1 does the work → Verifier checks output → if fails, feedback sent back to retry. Best for code review, security checks.</div>
+    </div>
+  </div>
+
+  <!-- Copilot + Claude hooks -->
+  <div class="card-title mb16" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">🪝 Claude Code Hooks — Security Gates</div>
+  <div class="code-block mb32">
+    <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">.claude/settings.json — PreToolUse hooks</div></div>
+    <div class="code-body">{
+  <span class="str">"hooks"</span>: {
+    <span class="str">"PreToolUse"</span>: [
+      {
+        <span class="str">"matcher"</span>: <span class="str">"Bash"</span>,
+        <span class="str">"hooks"</span>: [
+          {
+            <span class="str">"type"</span>: <span class="str">"command"</span>,
+            <span class="str">"command"</span>: <span class="str">"scripts/sec-check.sh"</span>,
+            <span class="str">"timeout"</span>: <span class="num">5</span>
+          }
+        ]
+      },
+      {
+        <span class="str">"matcher"</span>: <span class="str">"Write"</span>,
+        <span class="str">"hooks"</span>: [
+          {
+            <span class="str">"type"</span>: <span class="str">"command"</span>,
+            <span class="str">"command"</span>: <span class="str">"scripts/lint-check.sh"</span>  <span class="cm">// ruff + mypy on every write</span>
+          }
+        ]
+      }
+    ],
+    <span class="str">"PostToolUse"</span>: [
+      {
+        <span class="str">"matcher"</span>: <span class="str">"Write"</span>,
+        <span class="str">"hooks"</span>: [{
+          <span class="str">"type"</span>: <span class="str">"command"</span>,
+          <span class="str">"command"</span>: <span class="str">"scripts/auto-test.sh"</span>  <span class="cm">// pytest on changed modules</span>
+        }]
+      }
+    ]
+  }
+}</div>
+  </div>
+
+  <!-- Vibe Coding Guide -->
+  <div class="card-title mb16" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">🎵 Vibe Coding: Intent → Code Protocol</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title mb16 c-accent">The Prompt Framework</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">copilot / claude prompt template</div></div>
+        <div class="code-body"><span class="cm"># USE THIS TEMPLATE for every feature request to AI</span>
+
+CONTEXT: [What does this code sit next to?]
+  - Module: src/services/payments.py
+  - Related: models/order.py, repositories/payment_repo.py
+
+TASK: [One clear imperative verb sentence]
+  - Implement async Stripe payment processing
+
+CONSTRAINTS:
+  - Python 3.12, async/await
+  - Type hints + Google docstring required
+  - Raise PaymentDeclinedError on 402
+  - No global state
+
+OUTPUT:
+  - Function in src/services/payments.py
+  - Unit tests in tests/unit/test_payments.py
+  - Mock stripe client in tests</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title mb16 c-accent2">Vibe Coding Anti-Patterns</div>
+      <ul class="checklist">
+        <li>Never accept AI code without running the full pre-commit hook chain locally</li>
+        <li>Never use "LGTM" reviews on AI-generated PRs — check logic, not just style</li>
+        <li>Never let AI write to production config files without human review of every line</li>
+        <li>Never accept generated code that has no tests attached — make AI write tests first (TDD prompting)</li>
+        <li>Never skip type checking on AI output — mypy --strict always</li>
+        <li>Never give AI agent access to production secrets or live DB credentials</li>
+        <li>Always check AI-generated SQL for injection risks even if using ORM</li>
+        <li>Always run Bandit on AI-generated security-adjacent code (auth, crypto)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 3: CI/CD PIPELINE
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">03</span> Delivery Pipeline</div>
+    <div class="section-title">CI/CD <span>Pipeline Architecture</span></div>
+    <div class="section-desc">Every PR runs through this pipeline. No exceptions. No bypasses. Fast feedback, not slow ceremonies.</div>
+  </div>
+
+  <!-- Pipeline visual -->
+  <div class="pipeline mb32" style="flex-wrap:wrap;gap:8px;">
+    <div class="pipe-step" style="border-color:rgba(0,212,255,0.3);background:rgba(0,212,255,0.06)">
+      <div class="pipe-icon">🪝</div>
+      <div class="pipe-label c-accent">Pre-commit</div>
+      <div class="pipe-sub">ruff + mypy</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step" style="border-color:rgba(124,58,237,0.3);background:rgba(124,58,237,0.06)">
+      <div class="pipe-icon">🔍</div>
+      <div class="pipe-label c-accent2">Lint + Type</div>
+      <div class="pipe-sub">ruff check, mypy</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step" style="border-color:rgba(16,185,129,0.3);background:rgba(16,185,129,0.06)">
+      <div class="pipe-icon">🧪</div>
+      <div class="pipe-label c-accent3">Unit Tests</div>
+      <div class="pipe-sub">pytest —cov 85%</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step" style="border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.06)">
+      <div class="pipe-icon">🔒</div>
+      <div class="pipe-label c-accent4">Security</div>
+      <div class="pipe-sub">bandit, safety, snyk</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step" style="border-color:rgba(236,72,153,0.3);background:rgba(236,72,153,0.06)">
+      <div class="pipe-icon">🏗️</div>
+      <div class="pipe-label c-accent6">Integration</div>
+      <div class="pipe-sub">docker-compose tests</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step" style="border-color:rgba(0,212,255,0.3);background:rgba(0,212,255,0.06)">
+      <div class="pipe-icon">🤖</div>
+      <div class="pipe-label c-accent">AI Review</div>
+      <div class="pipe-sub">Copilot code review</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step" style="border-color:rgba(16,185,129,0.5);background:rgba(16,185,129,0.1)">
+      <div class="pipe-icon">🚀</div>
+      <div class="pipe-label c-accent3">Deploy</div>
+      <div class="pipe-sub">staging → prod</div>
+    </div>
+  </div>
+
+  <!-- GitHub Actions -->
+  <div class="code-block mb32">
+    <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">.github/workflows/ci.yml</div></div>
+    <div class="code-body"><span class="kw">name</span>: Python CI
+<span class="kw">on</span>: [push, pull_request]
+
+<span class="kw">jobs</span>:
+  quality:
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: actions/checkout@v4
+      - <span class="kw">uses</span>: actions/setup-python@v5
+        <span class="kw">with</span>: { python-version: <span class="str">"3.12"</span> }
+      - <span class="kw">run</span>: pip install uv && uv sync
+      - <span class="kw">run</span>: ruff check src tests          <span class="cm"># Linting</span>
+      - <span class="kw">run</span>: ruff format --check src tests  <span class="cm"># Formatting</span>
+      - <span class="kw">run</span>: mypy src --strict               <span class="cm"># Type checking</span>
+      - <span class="kw">run</span>: pytest --cov-fail-under=<span class="num">85</span>     <span class="cm"># Tests + Coverage</span>
+      - <span class="kw">run</span>: bandit -r src -c bandit.yaml    <span class="cm"># Security scan</span>
+      - <span class="kw">run</span>: safety check                    <span class="cm"># Dep vulnerabilities</span>
+      
+  <span class="cm"># AI-powered PR review step</span>
+  ai-review:
+    <span class="kw">needs</span>: quality
+    <span class="kw">runs-on</span>: ubuntu-latest
+    <span class="kw">steps</span>:
+      - <span class="kw">uses</span>: github/copilot-code-review@v1
+        <span class="kw">with</span>:
+          model: claude  <span class="cm"># Claude via Copilot</span>
+          focus: [security, performance, test-coverage]</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 4: EVALUATION & TESTING
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in" id="testing">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">04</span> Critical Gap</div>
+    <div class="section-title">Evaluation &amp; <span>Testing Framework</span></div>
+    <div class="section-desc">You said this is your weakest area. This section is your recovery plan. Treat testing as a first-class feature, not an afterthought.</div>
+  </div>
+
+  <div class="highlight-box mb32">
+    <p>As AI autonomy advances, <span>evaluation and testing become the primary constraint</span> on how fast you can go. When agents generate code faster than humans can review it, the bottleneck shifts decisively from code creation to <span>verification</span>. Evaluation must become continuous and embedded — not periodic and manual.</p>
+  </div>
+
+  <!-- Testing pyramid -->
+  <div class="card-title mb24" style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800">The AI-Native Testing Pyramid</div>
+
+  <!-- SVG Testing Pyramid -->
+  <div class="workflow-svg-wrap mb32">
+    <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:700px;display:block;margin:0 auto;">
+      <!-- E2E layer -->
+      <polygon points="350,20 480,100 220,100" fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.4)" stroke-width="1.5"/>
+      <text x="350" y="70" text-anchor="middle" fill="#ef4444" font-size="12" font-family="Syne, sans-serif" font-weight="700">E2E / Contract Tests</text>
+      <text x="350" y="86" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">~5% | Slow | Full stack</text>
+      <!-- Integration layer -->
+      <polygon points="220,110 480,110 540,190 160,190" fill="rgba(245,158,11,0.12)" stroke="rgba(245,158,11,0.35)" stroke-width="1.5"/>
+      <text x="350" y="152" text-anchor="middle" fill="#f59e0b" font-size="12" font-family="Syne, sans-serif" font-weight="700">Integration Tests</text>
+      <text x="350" y="168" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">~20% | Medium | Services + DB</text>
+      <!-- Unit layer -->
+      <polygon points="160,200 540,200 640,280 60,280" fill="rgba(16,185,129,0.12)" stroke="rgba(16,185,129,0.35)" stroke-width="1.5"/>
+      <text x="350" y="242" text-anchor="middle" fill="#10b981" font-size="12" font-family="Syne, sans-serif" font-weight="700">Unit Tests</text>
+      <text x="350" y="258" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="JetBrains Mono">~75% | Fast | Isolated functions + classes</text>
+      <!-- Labels right side -->
+      <text x="660" y="70" fill="#ef4444" font-size="10" font-family="JetBrains Mono">Playwright</text>
+      <text x="660" y="82" fill="#ef4444" font-size="10" font-family="JetBrains Mono">httpx TestClient</text>
+      <text x="660" y="152" fill="#f59e0b" font-size="10" font-family="JetBrains Mono">pytest + testcontainers</text>
+      <text x="660" y="164" fill="#f59e0b" font-size="10" font-family="JetBrains Mono">real DB, mock ext</text>
+      <text x="660" y="242" fill="#10b981" font-size="10" font-family="JetBrains Mono">pytest + unittest.mock</text>
+      <text x="660" y="254" fill="#10b981" font-size="10" font-family="JetBrains Mono">hypothesis property tests</text>
+    </svg>
+  </div>
+
+  <!-- Test code examples -->
+  <div class="grid-2 mb32">
+    <div class="card">
+      <div class="card-title mb16 c-accent3">Unit Test — AAA Pattern</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python — pytest</div></div>
+        <div class="code-body"><span class="kw">import</span> pytest
+<span class="kw">from</span> unittest.mock <span class="kw">import</span> AsyncMock, patch
+<span class="kw">from</span> decimal <span class="kw">import</span> Decimal
+<span class="kw">from</span> src.services.payments <span class="kw">import</span> process_payment
+
+<span class="dec">@pytest.mark.asyncio</span>
+<span class="dec">@pytest.mark.parametrize</span>(<span class="str">"amount,expected_status"</span>, [
+    (<span class="cls">Decimal</span>(<span class="str">"100.00"</span>), <span class="str">"captured"</span>),   <span class="cm"># happy</span>
+    (<span class="cls">Decimal</span>(<span class="str">"0.01"</span>), <span class="str">"captured"</span>),     <span class="cm"># edge: min</span>
+    (<span class="cls">Decimal</span>(<span class="str">"9999.99"</span>), <span class="str">"captured"</span>),  <span class="cm"># edge: max</span>
+])
+<span class="kw">async def</span> <span class="fn">test_process_payment_success</span>(
+    amount: <span class="cls">Decimal</span>,
+    expected_status: str,
+    mock_gateway: <span class="cls">AsyncMock</span>,
+    sample_order: <span class="cls">Order</span>,
+) -> <span class="kw">None</span>:
+    <span class="cm"># Arrange</span>
+    sample_order.total = amount
+    mock_gateway.charge.return_value = <span class="cls">ChargeResult</span>(
+        transaction_id=<span class="str">"txn_123"</span>,
+        status=expected_status,
+    )
+    <span class="cm"># Act</span>
+    result = <span class="kw">await</span> <span class="fn">process_payment</span>(sample_order, mock_gateway)
+    <span class="cm"># Assert</span>
+    <span class="kw">assert</span> result.status == expected_status
+    mock_gateway.charge.assert_called_once_with(amount)</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title mb16 c-accent4">Property-Based Testing (Hypothesis)</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python — hypothesis</div></div>
+        <div class="code-body"><span class="kw">from</span> hypothesis <span class="kw">import</span> given, settings
+<span class="kw">from</span> hypothesis <span class="kw">import</span> strategies <span class="kw">as</span> st
+<span class="kw">from</span> src.core.pricing <span class="kw">import</span> calculate_discount
+
+<span class="cm"># Let hypothesis find edge cases AI might miss</span>
+<span class="dec">@given</span>(
+    price=st.decimals(min_value=<span class="str">"0.01"</span>, max_value=<span class="str">"9999"</span>),
+    discount_pct=st.floats(min_value=<span class="num">0</span>, max_value=<span class="num">100</span>),
+)
+<span class="dec">@settings</span>(max_examples=<span class="num">500</span>)
+<span class="kw">def</span> <span class="fn">test_discount_never_negative</span>(
+    price: <span class="cls">Decimal</span>, discount_pct: float
+) -> <span class="kw">None</span>:
+    result = <span class="fn">calculate_discount</span>(price, discount_pct)
+    <span class="cm"># Invariant: final price always >= 0</span>
+    <span class="kw">assert</span> result >= <span class="cls">Decimal</span>(<span class="str">"0"</span>)
+    <span class="cm"># Invariant: never exceeds original</span>
+    <span class="kw">assert</span> result <= price</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title mb16 c-accent2">AI-Generated Code Evaluation Pattern</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python — eval framework</div></div>
+        <div class="code-body"><span class="cm"># Evaluate AI-generated code quality programmatically</span>
+<span class="kw">import</span> subprocess
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="cls">CodeQualityReport</span>:
+    lint_passed: bool
+    type_check_passed: bool
+    test_coverage: float
+    security_issues: int
+    complexity_score: float
+
+<span class="kw">def</span> <span class="fn">evaluate_ai_output</span>(file_path: str) -> <span class="cls">CodeQualityReport</span>:
+    <span class="str">"""Run all quality gates on AI-generated code."""</span>
+    lint = subprocess.run([<span class="str">"ruff"</span>, <span class="str">"check"</span>, file_path])
+    types = subprocess.run([<span class="str">"mypy"</span>, file_path, <span class="str">"--strict"</span>])
+    security = subprocess.run([<span class="str">"bandit"</span>, <span class="str">"-r"</span>, file_path])
+    tests = subprocess.run([<span class="str">"pytest"</span>, <span class="str">"--cov"</span>, file_path])
+
+    <span class="kw">return</span> <span class="cls">CodeQualityReport</span>(
+        lint_passed=lint.returncode == <span class="num">0</span>,
+        type_check_passed=types.returncode == <span class="num">0</span>,
+        test_coverage=<span class="fn">_parse_coverage</span>(tests.stdout),
+        security_issues=<span class="fn">_count_issues</span>(security.stdout),
+        complexity_score=<span class="fn">_radon_complexity</span>(file_path),
+    )</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title mb16 c-accent">Integration Test with Testcontainers</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python — integration test</div></div>
+        <div class="code-body"><span class="kw">import</span> pytest
+<span class="kw">from</span> testcontainers.postgres <span class="kw">import</span> PostgresContainer
+<span class="kw">from</span> sqlalchemy.ext.asyncio <span class="kw">import</span> create_async_engine
+
+<span class="dec">@pytest.fixture</span>(scope=<span class="str">"session"</span>)
+<span class="kw">def</span> <span class="fn">postgres</span>():
+    <span class="cm"># Real DB in Docker — no mocks at integration level</span>
+    <span class="kw">with</span> <span class="cls">PostgresContainer</span>(<span class="str">"postgres:16"</span>) <span class="kw">as</span> pg:
+        <span class="kw">yield</span> pg.get_connection_url()
+
+<span class="dec">@pytest.mark.integration</span>
+<span class="dec">@pytest.mark.asyncio</span>
+<span class="kw">async def</span> <span class="fn">test_order_repository_save_and_retrieve</span>(
+    postgres: str,
+) -> <span class="kw">None</span>:
+    engine = <span class="fn">create_async_engine</span>(postgres)
+    repo = <span class="cls">OrderRepository</span>(engine)
+    order = <span class="cls">Order</span>(product_id=uuid4(), quantity=<span class="num">2</span>)
+
+    <span class="kw">await</span> repo.save(order)
+    retrieved = <span class="kw">await</span> repo.get(order.id)
+
+    <span class="kw">assert</span> retrieved == order</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Testing mandate table -->
+  <div class="card-title mb16" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">📊 Testing Mandate by Code Type</div>
+  <div class="table-wrap mb32">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Code Type</th>
+          <th>Min Coverage</th>
+          <th>Required Test Types</th>
+          <th>AI-Gen Policy</th>
+          <th>Blocked On Fail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="strong">Core domain logic</td><td class="c-accent3">95%</td><td>Unit + Property (Hypothesis)</td><td>Must include tests in same PR</td><td class="c-accent5">Yes — PR blocked</td></tr>
+        <tr><td class="strong">API endpoints</td><td class="c-accent3">90%</td><td>Unit + Integration (TestClient)</td><td>Copilot writes test stubs</td><td class="c-accent5">Yes — PR blocked</td></tr>
+        <tr><td class="strong">Repository layer</td><td class="c-accent4">85%</td><td>Integration (testcontainers)</td><td>Agent generates both impl + test</td><td class="c-accent5">Yes — PR blocked</td></tr>
+        <tr><td class="strong">Services / Orchestration</td><td class="c-accent4">85%</td><td>Unit (mocked deps)</td><td>Cursor Agent writes tests first (TDD)</td><td class="c-accent5">Yes — PR blocked</td></tr>
+        <tr><td class="strong">Utility functions</td><td class="c-accent4">80%</td><td>Unit + Property</td><td>Auto-generated via Claude Code skill</td><td class="c-accent4">Warning only</td></tr>
+        <tr><td class="strong">AI-Generated code</td><td class="c-accent3">90%</td><td>All applicable types</td><td>Verifier agent validates before PR</td><td class="c-accent5">Hard block — no exceptions</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 5: SECURITY & RISK
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">05</span> Security Layer</div>
+    <div class="section-title">Security, <span>Risk &amp; Governance</span></div>
+    <div class="section-desc">New risk classes introduced by AI-native development require structural responses, not manual review.</div>
+  </div>
+
+  <div class="risk-grid mb32">
+    <div class="risk-card risk-high">
+      <div class="risk-title">Prompt Injection</div>
+      <div class="risk-desc">Malicious input in user data manipulates agent instructions and causes unintended code execution or data exfiltration.</div>
+      <span class="risk-badge">CRITICAL</span>
+    </div>
+    <div class="risk-card risk-high">
+      <div class="risk-title">Credential Leak</div>
+      <div class="risk-desc">AI agents trained on internal code may reproduce secrets, tokens, or API keys in generated output.</div>
+      <span class="risk-badge">CRITICAL</span>
+    </div>
+    <div class="risk-card risk-high">
+      <div class="risk-title">Scope Creep / Hallucination</div>
+      <div class="risk-desc">Agents modify files or dependencies beyond their mandate. Self-reflection loops catch this — humans must approve diffs.</div>
+      <span class="risk-badge">CRITICAL</span>
+    </div>
+    <div class="risk-card risk-med">
+      <div class="risk-title">Dependency Confusion</div>
+      <div class="risk-desc">AI imports non-existent or typosquatted packages. All imports validated against approved package list before install.</div>
+      <span class="risk-badge">HIGH</span>
+    </div>
+    <div class="risk-card risk-med">
+      <div class="risk-title">Training Data Poisoning</div>
+      <div class="risk-desc">AI models fine-tuned on vulnerable code reproduce those patterns. CodeQL and Bandit run on ALL generated code.</div>
+      <span class="risk-badge">HIGH</span>
+    </div>
+    <div class="risk-card risk-low">
+      <div class="risk-title">Attribution Loss</div>
+      <div class="risk-desc">AI-generated changes not linked to human approver. Every commit must have human sign-off. Agent identity ≠ human identity.</div>
+      <span class="risk-badge">MEDIUM</span>
+    </div>
+  </div>
+
+  <!-- Security code -->
+  <div class="code-block mb32">
+    <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">scripts/sec-check.sh — pre-agent security gate</div></div>
+    <div class="code-body"><span class="cm">#!/bin/bash</span>
+<span class="cm"># Run before every AI agent tool-use — hard fail stops execution</span>
+set -e
+
+<span class="cm"># 1. Secret scanning — no credentials in code</span>
+detect-secrets scan --baseline .secrets.baseline src/
+gitleaks detect --source . --no-git
+
+<span class="cm"># 2. Dependency safety</span>
+safety check --full-report
+pip-audit --desc
+
+<span class="cm"># 3. Static security analysis</span>
+bandit -r src/ -c bandit.yaml -ll  <span class="cm"># -ll = HIGH and CRITICAL only</span>
+
+<span class="cm"># 4. CodeQL (runs in CI, not locally — too slow)</span>
+<span class="cm"># Triggered automatically on PR via GitHub Actions</span>
+
+echo "✅ Security gates passed"</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 6: TOOLS ECOSYSTEM
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in" id="tools">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">06</span> Ecosystem</div>
+    <div class="section-title">Complete <span>Tool Ecosystem</span></div>
+    <div class="section-desc">The full AI-native development ecosystem map — organized by function, not vendor preference.</div>
+  </div>
+
+  <div class="eco-grid mb32">
+    <div class="eco-cat">
+      <div class="eco-cat-title c-accent">Foundation Models</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent)"></span>Anthropic Claude</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent)"></span>OpenAI GPT-4o</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent)"></span>Google Gemini</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent)"></span>Meta Llama (local)</div>
+    </div>
+    <div class="eco-cat">
+      <div class="eco-cat-title c-accent2">AI-Native IDEs</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent2)"></span>GitHub Copilot ★</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent2)"></span>Cursor ★</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent2)"></span>Claude Code</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent2)"></span>Windsurf</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent2)"></span>JetBrains AI</div>
+    </div>
+    <div class="eco-cat">
+      <div class="eco-cat-title c-accent3">Agent Frameworks</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent3)"></span>LangGraph</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent3)"></span>AutoGen</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent3)"></span>CrewAI</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent3)"></span>Semantic Kernel</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent3)"></span>LlamaIndex</div>
+    </div>
+    <div class="eco-cat">
+      <div class="eco-cat-title c-accent4">Autonomous Agents</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent4)"></span>OpenHands</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent4)"></span>Devin (Cognition)</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent4)"></span>SWE-agent</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent4)"></span>AutoCode</div>
+    </div>
+    <div class="eco-cat">
+      <div class="eco-cat-title c-accent5">Eval &amp; Testing</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent5)"></span>pytest + hypothesis</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent5)"></span>Qodo / CodiumAI</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent5)"></span>Diffblue</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent5)"></span>Testim</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent5)"></span>Tricentis</div>
+    </div>
+    <div class="eco-cat">
+      <div class="eco-cat-title c-accent6">Security &amp; Governance</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent6)"></span>Snyk</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent6)"></span>Bandit + Safety</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent6)"></span>CodeQL</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent6)"></span>SonarQube</div>
+      <div class="eco-item"><span class="eco-dot" style="background:var(--accent6)"></span>GitGuardian</div>
+    </div>
+  </div>
+
+  <!-- Platform comparison -->
+  <div class="card-title mb16" style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">⚖️ GitHub Copilot vs Cursor — Your Two Primary Tools</div>
+  <div class="compare-wrap mb32">
+    <div class="compare-row compare-header">
+      <div class="compare-cell header-cell label">Dimension</div>
+      <div class="compare-cell header-cell" style="color:var(--accent)">GitHub Copilot + Claude</div>
+      <div class="compare-cell header-cell" style="color:var(--accent2)">Cursor</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Autonomy Level</div>
+      <div class="compare-cell">Level 1–2 (standard), Level 3 (Workspace)</div>
+      <div class="compare-cell">Level 1–3, Agent mode</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Context Window</div>
+      <div class="compare-cell">Standard (repo-aware)</div>
+      <div class="compare-cell good">200K tokens (entire codebase)</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Multi-file edits</div>
+      <div class="compare-cell">Workspace mode only</div>
+      <div class="compare-cell good">Native Composer — all files at once</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Enterprise</div>
+      <div class="compare-cell good">SSO, audit logs, policy controls, GH integration</div>
+      <div class="compare-cell">SOC2, privacy mode, custom models</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Claude Access</div>
+      <div class="compare-cell good">Native via Copilot (Claude Sonnet/Opus)</div>
+      <div class="compare-cell">Via custom model setting</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Differentiator</div>
+      <div class="compare-cell">Broadest IDE compat, GitHub workflow native</div>
+      <div class="compare-cell good">Fastest multi-file generation, agent mode</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Best For</div>
+      <div class="compare-cell">Teams already on GitHub, PRs, CI/CD</div>
+      <div class="compare-cell">Large codebase refactoring, agentic tasks</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell label">Recommendation</div>
+      <div class="compare-cell good">Primary: all developers — Day 1</div>
+      <div class="compare-cell">Secondary: senior devs for complex tasks</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 7: CODE REVIEW PROCESS
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">07</span> Quality Gates</div>
+    <div class="section-title">AI-Augmented <span>Code Review</span></div>
+    <div class="section-desc">Human review + AI review together. Neither replaces the other. Both are mandatory.</div>
+  </div>
+
+  <div class="grid-3 mb32">
+    <div class="card bg-a1">
+      <div class="card-icon" style="background:rgba(0,212,255,0.1)">🤖</div>
+      <div class="card-title c-accent">AI First Pass</div>
+      <div class="card-desc">Copilot Code Review (Claude model) runs on every PR automatically. Checks: logic errors, security patterns, test completeness, style conformance, documentation gaps.</div>
+      <div class="tag-list"><span class="tag">auto</span><span class="tag">seconds</span><span class="tag">blocking</span></div>
+    </div>
+    <div class="card bg-a2">
+      <div class="card-icon" style="background:rgba(124,58,237,0.1)">👤</div>
+      <div class="card-title c-accent2">Human Second Pass</div>
+      <div class="card-desc">Human reviewer focuses on: business logic correctness, architecture alignment, intent clarity, edge cases AI may have missed. 30 min max review time.</div>
+      <div class="tag-list"><span class="tag">human</span><span class="tag">architecture</span><span class="tag">intent</span></div>
+    </div>
+    <div class="card bg-a3">
+      <div class="card-icon" style="background:rgba(16,185,129,0.1)">✅</div>
+      <div class="card-title c-accent3">Merge Gate</div>
+      <div class="card-desc">Both must pass: AI review approved + human approval + all CI checks green. AI-generated code requires explicit human sign-off — no exceptions.</div>
+      <div class="tag-list"><span class="tag">both required</span><span class="tag">audit trail</span></div>
+    </div>
+  </div>
+
+  <!-- PR Template -->
+  <div class="code-block mb32">
+    <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">.github/pull_request_template.md</div></div>
+    <div class="code-body"><span class="cm">## Summary</span>
+[One sentence: what does this PR do?]
+
+<span class="cm">## Type of Change</span>
+- [ ] New feature
+- [ ] Bug fix  
+- [ ] Refactor
+- [ ] AI-assisted generation (specify tool: _________)
+
+<span class="cm">## AI Assistance Disclosure</span>
+- [ ] No AI assistance used
+- [ ] AI used for code generation (Copilot / Cursor / Claude Code)
+- [ ] AI agent executed full feature (human reviewed all diffs)
+
+<span class="cm">## Quality Checklist</span>
+- [ ] ruff check passes locally
+- [ ] mypy --strict passes locally
+- [ ] pytest --cov 85%+ passes
+- [ ] bandit clean (no HIGH/CRITICAL issues)
+- [ ] No hardcoded secrets (gitleaks clean)
+- [ ] Docstrings added for all public APIs
+- [ ] Tests written BEFORE or WITH code (not after)
+
+<span class="cm">## Testing Evidence</span>
+Paste: `pytest --cov=src tests/ -v` output summary here</div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 8: PERFORMANCE & OBSERVABILITY
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">08</span> Observability</div>
+    <div class="section-title">Performance &amp; <span>Observability</span></div>
+    <div class="section-desc">You can't govern what you can't see. Instrument everything — including AI agent actions.</div>
+  </div>
+
+  <div class="grid-2 mb32">
+    <div class="card">
+      <div class="card-title mb16 c-accent">Structured Logging Standard</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python — structlog</div></div>
+        <div class="code-body"><span class="kw">import</span> structlog
+
+log = structlog.get_logger()
+
+<span class="kw">async def</span> <span class="fn">process_order</span>(order_id: <span class="cls">UUID</span>) -> <span class="cls">Order</span>:
+    log.info(
+        <span class="str">"order.processing.start"</span>,
+        order_id=str(order_id),
+        service=<span class="str">"order-service"</span>,
+        version=<span class="str">"1.2.0"</span>,
+    )
+    <span class="kw">try</span>:
+        result = <span class="kw">await</span> <span class="fn">_process</span>(order_id)
+        log.info(<span class="str">"order.processing.success"</span>,
+                 order_id=str(order_id),
+                 duration_ms=<span class="fn">elapsed</span>())
+        <span class="kw">return</span> result
+    <span class="kw">except</span> <span class="cls">Exception</span> <span class="kw">as</span> e:
+        log.error(<span class="str">"order.processing.failed"</span>,
+                  order_id=str(order_id),
+                  error=str(e), exc_info=<span class="kw">True</span>)
+        <span class="kw">raise</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title mb16 c-accent2">AI Agent Audit Trail</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">python — agent logging</div></div>
+        <div class="code-body"><span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
+<span class="kw">from</span> datetime <span class="kw">import</span> datetime
+
+<span class="dec">@dataclass</span>
+<span class="kw">class</span> <span class="cls">AgentAction</span>:
+    agent_id: str
+    human_delegator: str  <span class="cm"># Who approved this task</span>
+    task_description: str
+    files_modified: list[str]
+    tool_calls: list[str]
+    timestamp: <span class="cls">datetime</span> = field(default_factory=datetime.utcnow)
+    human_approved: bool = <span class="kw">False</span>
+    pr_url: str | <span class="kw">None</span> = <span class="kw">None</span>
+
+<span class="cm"># Every agent action logged to audit table</span>
+<span class="cm"># Never agents under human credentials</span>
+<span class="cm"># Separate agent identity from developer identity</span>
+<span class="cm"># All actions reviewable in governance dashboard</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 9: ROLLOUT ROADMAP
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in" id="roadmap">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">09</span> Execution Plan</div>
+    <div class="section-title">Rollout <span>Roadmap</span></div>
+    <div class="section-desc">Months to weeks. A concrete phased plan to go from unstructured to AI-native governed autonomy.</div>
+  </div>
+
+  <div class="stat-row mb32">
+    <div class="stat-box">
+      <div class="stat-num c-accent">W1–2</div>
+      <div class="stat-desc">Toolchain Setup</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num c-accent2">M1</div>
+      <div class="stat-desc">Standards Live</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num c-accent3">M2</div>
+      <div class="stat-desc">AI Copilot Active</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num c-accent4">M3–4</div>
+      <div class="stat-desc">Agentic Workflows</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num c-accent5">M6+</div>
+      <div class="stat-desc">Full Autonomy</div>
+    </div>
+  </div>
+
+  <div class="roadmap mb32">
+    <div class="roadmap-phase">
+      <div class="rp-num c-accent">Phase 1</div>
+      <div class="rp-title">Foundation</div>
+      <div class="rp-time" style="background:rgba(0,212,255,0.1);color:var(--accent)">Week 1–2</div>
+      <ul class="rp-items">
+        <li>Install ruff, mypy, pre-commit on all machines</li>
+        <li>Create pyproject.toml standard template</li>
+        <li>Set up GitHub Actions CI pipeline</li>
+        <li>Cookiecutter project template</li>
+        <li>Team training: Python standards workshop (2h)</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase">
+      <div class="rp-num c-accent2">Phase 2</div>
+      <div class="rp-title">Standards</div>
+      <div class="rp-time" style="background:rgba(124,58,237,0.1);color:var(--accent2)">Month 1</div>
+      <ul class="rp-items">
+        <li>Apply coding standards to all new code</li>
+        <li>Retrofit top 3 critical modules</li>
+        <li>Deploy GitHub Copilot to all devs</li>
+        <li>Create CLAUDE.md for each project</li>
+        <li>First AI-assisted PR review pilot</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase">
+      <div class="rp-num c-accent3">Phase 3</div>
+      <div class="rp-title">Test Coverage</div>
+      <div class="rp-time" style="background:rgba(16,185,129,0.1);color:var(--accent3)">Month 2</div>
+      <ul class="rp-items">
+        <li>pytest coverage baseline measurement</li>
+        <li>AI-assisted test generation for untested code</li>
+        <li>85% coverage gate activated in CI</li>
+        <li>Integration test suite with testcontainers</li>
+        <li>Hypothesis property tests for core logic</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase">
+      <div class="rp-num c-accent4">Phase 4</div>
+      <div class="rp-title">Agentic AI</div>
+      <div class="rp-time" style="background:rgba(245,158,11,0.1);color:var(--accent4)">Month 3–4</div>
+      <ul class="rp-items">
+        <li>Deploy Cursor for senior engineers</li>
+        <li>Claude Code skills library creation</li>
+        <li>First autonomous feature delivery</li>
+        <li>Agent audit trail implementation</li>
+        <li>Self-reflection verification loops</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase">
+      <div class="rp-num c-accent5">Phase 5</div>
+      <div class="rp-title">Full Autonomy</div>
+      <div class="rp-time" style="background:rgba(239,68,68,0.1);color:var(--accent5)">Month 6+</div>
+      <ul class="rp-items">
+        <li>Multi-agent parallel workflows active</li>
+        <li>Autonomous SDLC for new features</li>
+        <li>Governance dashboard live</li>
+        <li>Continuous evaluation backbone</li>
+        <li>10× delivery velocity target met</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Team Rollout Checklist -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title mb16 c-accent3">✅ Week 1 Action Items</div>
+      <ul class="checklist">
+        <li>Install: <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent)">pip install ruff mypy pre-commit bandit safety</code></li>
+        <li>Clone the standard pyproject.toml template to all projects</li>
+        <li>Enable GitHub Copilot for all engineers (request licenses)</li>
+        <li>Create .cursor/rules/python.mdc in top 3 active projects</li>
+        <li>Run first <code style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent)">pytest --cov</code> baseline to know where you stand</li>
+        <li>Add CI workflow to all repos (copy template from this doc)</li>
+        <li>Schedule 2-hour team standards workshop</li>
+        <li>Create CLAUDE.md context file for each active project</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title mb16 c-accent4">📏 Success Metrics</div>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Metric</th><th>Now</th><th>M1</th><th>M3</th><th>M6</th></tr></thead>
+          <tbody>
+            <tr><td>Test Coverage</td><td class="c-accent5">?%</td><td>60%</td><td>80%</td><td class="c-accent3">85%+</td></tr>
+            <tr><td>Lint Pass Rate</td><td class="c-accent5">Low</td><td>90%</td><td>99%</td><td class="c-accent3">100%</td></tr>
+            <tr><td>PR Review Time</td><td class="c-accent5">Days</td><td>4h</td><td>2h</td><td class="c-accent3">30min</td></tr>
+            <tr><td>Feature Delivery</td><td class="c-accent5">Months</td><td>Weeks</td><td>Days</td><td class="c-accent3">Hours</td></tr>
+            <tr><td>AI-Gen Code %</td><td>0%</td><td>20%</td><td>50%</td><td class="c-accent3">70%+</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECTION 10: QUICK REFERENCE
+═══════════════════════════════════════════════════════════ -->
+<div class="section fade-in">
+  <div class="section-header">
+    <div class="section-tag"><span class="num">10</span> Quick Reference</div>
+    <div class="section-title">Developer <span>Quick Reference Card</span></div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card bg-a1">
+      <div class="card-title c-accent mb16">🚀 Daily Commands</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">Makefile targets</div></div>
+        <div class="code-body">make lint      <span class="cm"># ruff check + format</span>
+make types     <span class="cm"># mypy --strict</span>
+make test      <span class="cm"># pytest + coverage</span>
+make secure    <span class="cm"># bandit + safety</span>
+make all       <span class="cm"># run everything</span>
+make clean     <span class="cm"># remove cache</span>
+make run       <span class="cm"># uvicorn dev server</span></div>
+      </div>
+    </div>
+
+    <div class="card bg-a2">
+      <div class="card-title c-accent2 mb16">🤖 Copilot Commands</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">VS Code shortcuts</div></div>
+        <div class="code-body">Tab            <span class="cm"># Accept suggestion</span>
+Esc            <span class="cm"># Reject suggestion</span>
+Ctrl+Enter     <span class="cm"># Open suggestion panel</span>
+Ctrl+I         <span class="cm"># Inline chat</span>
+Ctrl+Shift+I   <span class="cm"># Copilot Chat sidebar</span>
+<span class="cm"># In chat:</span>
+/explain       <span class="cm"># Explain selected code</span>
+/fix           <span class="cm"># Fix bug in selection</span>
+/tests         <span class="cm"># Generate tests</span>
+/doc           <span class="cm"># Generate docstring</span></div>
+      </div>
+    </div>
+
+    <div class="card bg-a3">
+      <div class="card-title c-accent3 mb16">🖱️ Cursor Commands</div>
+      <div class="code-block">
+        <div class="code-header"><div class="code-dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><div class="code-lang">Cursor shortcuts</div></div>
+        <div class="code-body">Ctrl+K         <span class="cm"># Inline edit/generate</span>
+Ctrl+L         <span class="cm"># Chat panel</span>
+Ctrl+Shift+L   <span class="cm"># Composer (multi-file)</span>
+<span class="cm"># Composer workflow:</span>
+1. Describe feature in plain English
+2. Review generated plan
+3. Accept/reject file by file
+4. Run: make all
+5. Review diffs before commit
+
+<span class="cm"># Always @ reference files</span>
+@src/models    <span class="cm"># Include context</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════ -->
+<div class="footer">
+  <div class="footer-logo">Python SDF v2.0</div>
+  <div class="footer-sub" style="margin-bottom:8px">AI-Native Software Development Framework · 2026</div>
+  <div class="footer-sub">The future of software is <strong style="color:var(--accent)">policy-governed intelligence at scale.</strong></div>
+  <div style="margin-top:24px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">ruff ✓</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">mypy --strict ✓</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">pytest 85% ✓</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">bandit ✓</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">GitHub Copilot ✓</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">Claude Code ✓</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3)">Cursor ✓</span>
+  </div>
+</div>
+
+<script>
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Active nav
+const sections = document.querySelectorAll('section[id], div[id]');
+const navItems = document.querySelectorAll('.snav-item');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navItems.forEach(n => n.classList.remove('active'));
+      const active = document.querySelector(`.snav-item[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => io.observe(s));
+</script>
+</body>
+</html>
